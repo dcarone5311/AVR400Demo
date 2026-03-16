@@ -17,12 +17,15 @@ public class PlayerController : MonoBehaviour
     float verticalVelo;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
         controller = GetComponent<CharacterController>();   
         animator = GetComponentInChildren<Animator>();
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -31,9 +34,12 @@ public class PlayerController : MonoBehaviour
 
         if(controller.isGrounded) //on ground
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
                 verticalVelo = jumpHeight;
+                animator.SetTrigger("Jump");
 
+            }
             if (input == Vector2.zero) //idle
                 animator.SetInteger("State", 0);
             else //running/walking
@@ -42,9 +48,9 @@ public class PlayerController : MonoBehaviour
         }
         else //not on the ground
         {
+            animator.SetInteger("State", 3);
             verticalVelo -= gravity * Time.deltaTime; //subtract from vertical velo
         }
-
 
 
 
@@ -62,8 +68,11 @@ public class PlayerController : MonoBehaviour
 
 
         //rotate child model
-        Quaternion targetRotation = Quaternion.LookRotation(move);
-        child.rotation = Quaternion.Slerp(child.rotation, targetRotation, smooth * Time.deltaTime);
+        if(move !=  Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(move);
+            child.rotation = Quaternion.Slerp(child.rotation, targetRotation, smooth * Time.deltaTime);
+        }
 
 
 
@@ -72,6 +81,8 @@ public class PlayerController : MonoBehaviour
 
         move = move + Vector3.up * verticalVelo;
         controller.Move(move * Time.deltaTime);
+
+
 
     }
 }

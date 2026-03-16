@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Week 1\Move.cs" />
     <Compile Include="Assets\Week 2\PlayerController.cs" />
+    <Compile Include="Assets\Week 3\Collectible.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
